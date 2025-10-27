@@ -1,5 +1,3 @@
-
-
 import 'package:movie_pedia/domain/entities/movie.dart';
 
 abstract class MoviesRepository {

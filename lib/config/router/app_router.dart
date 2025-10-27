@@ -1,7 +1,7 @@
 
 
 import 'package:go_router/go_router.dart';
-import 'package:movie_pedia/screens/movies/home_screen.dart';
+import 'package:movie_pedia/presentation/screens/home/home_Screen.dart';
 
 final GoRouter  appRouter= GoRouter(
   routes: <RouteBase>[

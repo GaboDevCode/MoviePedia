@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:movie_pedia/config/constants/environment.dart';
+
 
 
 class HomeScreen extends StatelessWidget {

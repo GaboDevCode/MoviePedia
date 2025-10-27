@@ -5,6 +5,7 @@ import 'package:movie_pedia/domain/entities/movie.dart';
 import 'package:movie_pedia/domain/infrestructure/models/moviedb/movie_moviedb.dart';
 
 class MovieMapper {
+  
   static Movie movieTheMovieDbEntity(MovieMoviedb moviedb) => Movie(
     adult: moviedb.adult,
     backdropPath: (moviedb.backdropPath != '')
