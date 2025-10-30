@@ -18,7 +18,7 @@ class TheMovieDb {
     });
 
     factory TheMovieDb.fromJson(Map<String, dynamic> json) => TheMovieDb(
-        dates: json["dates"] ? Dates.fromJson(json["dates"]): null,
+        dates: json["dates"] != null ? Dates.fromJson(json["dates"]): null,
         page: json["page"],
         results: List<MovieMoviedb>.from(json["results"].map((x) => MovieMoviedb.fromJson(x))),
         totalPages: json["total_pages"],
@@ -26,7 +26,7 @@ class TheMovieDb {
     );
 
     Map<String, dynamic> toJson() => {
-        "dates": dates == null ? null : dates!.toJson(),
+        "dates": dates == null ? null  : dates!.toJson(),
         "page": page,
         "results": List<dynamic>.from(results.map((x) => x.toJson())),
         "total_pages": totalPages,
