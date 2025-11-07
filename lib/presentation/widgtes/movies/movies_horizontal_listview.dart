@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movie_pedia/config/helpers/human_format.dart';
 import 'package:movie_pedia/domain/entities/movie.dart';
 
@@ -33,8 +34,6 @@ class _MoviesHorizontalListviewState extends State<MoviesHorizontalListview> {
       if (widget.loadNextPage == null) return;
       if ((scrollController.position.pixels + 200) >
           scrollController.position.maxScrollExtent) {
-        print(" LOAD NEXT PAGE");
-
         widget.loadNextPage!();
       }
     });
@@ -61,8 +60,11 @@ class _MoviesHorizontalListviewState extends State<MoviesHorizontalListview> {
               itemCount: widget.movies.length,
               scrollDirection: Axis.horizontal,
               physics: BouncingScrollPhysics(),
+
               itemBuilder: (context, index) {
-                return _SlideMovies(movie: widget.movies[index]);
+                return FadeInRight(
+                  child: _SlideMovies(movie: widget.movies[index]),
+                );
               },
             ),
           ),
@@ -125,6 +127,7 @@ class _SlideMovies extends StatelessWidget {
                 movie.posterPath,
                 fit: BoxFit.cover,
                 loadingBuilder: (context, child, loadingProgress) {
+
                   if (loadingProgress != null) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -133,7 +136,10 @@ class _SlideMovies extends StatelessWidget {
                       ),
                     );
                   }
-                  return FadeIn(child: child);
+                  return GestureDetector(
+                    onTap: () => context.push('/movie/${movie.id}'),
+                    child: FadeIn(child: child),
+                  );
                 },
               ),
             ),
