@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:movie_pedia/config/constants/environment.dart';
 import 'package:movie_pedia/domain/datasources/movies_datasources.dart';
 import 'package:movie_pedia/domain/entities/movie.dart';
+import 'package:movie_pedia/domain/infrestructure/mappers/detailMovie_mapper.dart';
 import 'package:movie_pedia/domain/infrestructure/mappers/movie_mapper.dart';
+import 'package:movie_pedia/domain/infrestructure/models/moviedb/getDetailMovie.dart';
 import 'package:movie_pedia/domain/infrestructure/models/moviedb/moviedb_response.dart';
 
 /// Clase creada para interacturar con la clase Movie Datasource
@@ -17,8 +19,6 @@ class ThemoviesDatasource extends MoviesDatasources {
       },
     ),
   );
-
-
 
   List<Movie> _toJsonMovie(Map<String, dynamic> json) {
     final movieDbResponse = TheMovieDb.fromJson(json); // recibimos el Json
@@ -46,22 +46,37 @@ class ThemoviesDatasource extends MoviesDatasources {
   // Obtener peliculas mas populares
   @override
   Future<List<Movie>> getPopularMovie({int page = 1}) async {
-
-     final response = await dio.get(
+    final response = await dio.get(
       '/movie/popular',
       queryParameters: {'page': page},
     );
 
     return _toJsonMovie(response.data);
   }
-  
+
   @override
   Future<List<Movie>> getTopRatedMovie({int page = 1}) async {
-       final response = await dio.get(
+    final response = await dio.get(
       '/movie/top_rated',
       queryParameters: {'page': page},
     );
 
     return _toJsonMovie(response.data);
+  }
+
+  @override
+  Future<Movie> getDetailMovie(String id) async {
+    final response = await dio.get('/movie/$id');
+
+    if (response.statusCode != 200)
+      throw Exception("movie id $id , not found ");
+
+    // recibimos la data
+    final detailMovie = GetDetailMovie.fromJson(response.data);
+
+    // mapeamos la data
+    final Movie moviedetails = DetailmovieMapper.detailMovie(detailMovie);
+
+    return moviedetails;
   }
 }
